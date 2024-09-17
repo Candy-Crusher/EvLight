@@ -9,7 +9,7 @@ VAL_INTERVAL: 1
 MODEL_SANING_INTERVAL: 5
 MIX_PRECISION: true
 RESUME:
-  PATH: "" # file path of pretrained model
+  PATH: "/home/xiaoshan/work/adap_v/EvLight/pretrained/sdsd_out.pth.tar" # file path of pretrained model
   TYPE:
   SET_EPOCH: false
 SEED: 2333
@@ -33,11 +33,11 @@ METRICS:
   - NAME: PSNR_star
     input_is_linear: false
 DATASET:
-  NAME: get_eglol_withNE_dataset
-  root: "" # file path of dataset
+  NAME: get_egdsec_withNE_dataset
+  root: "/home/xiaoshan/work/adap_v/my_proj/data/DSEC/night/" # file path of dataset
   voxel_grid_channel: 32
-  img_height: 260
-  img_width: 346
+  img_height: 440
+  img_width: 640
   is_split_event: true
 MODEL:
   NAME: egretinex

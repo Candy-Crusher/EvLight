@@ -96,10 +96,10 @@ class Visualization:
             os.makedirs(testfolder, exist_ok=True)
             # save output
             
-            _save(
-                outputs["gt"][b],
-                join(testfolder, f"{frame_name}_gt.png"),
-            )
+            # _save(
+            #     outputs["gt"][b],
+            #     join(testfolder, f"{frame_name}_gt.png"),
+            # )
             _save(
                 outputs["pred"][b],
                 join(testfolder, f"{frame_name}_pred.png"),
@@ -346,15 +346,15 @@ class ParallelLaunch:
                     with torch.cuda.amp.autocast():
                         outputs = model(batch)
                         outputs['epoch']=epoch
-                        losses, name_to_loss = criterion(outputs)
-                        # 2.2. recorder
-                        name_to_measure = metrics(outputs)
+                        # losses, name_to_loss = criterion(outputs)
+                        # # 2.2. recorder
+                        # name_to_measure = metrics(outputs)
                 else:
                     outputs = model(batch)
                     outputs['epoch']=epoch
-                    losses, name_to_loss = criterion(outputs)
-                    # 2.2. recorder
-                    name_to_measure = metrics(outputs)
+                    # losses, name_to_loss = criterion(outputs)
+                    # # 2.2. recorder
+                    # name_to_measure = metrics(outputs)
 
                 # 2.3 visualization
                 if self.visualizer:
@@ -363,36 +363,36 @@ class ParallelLaunch:
                 now = time.time()
                 batch_time_meter.update(now - time_recoder)
                 time_recoder = now
-                loss = (
-                    losses.detach().item()
-                    if isinstance(losses, torch.Tensor)
-                    else losses
-                )
-                losses_meter["total"].update(loss)
-                for name, loss_item in name_to_loss:
-                    loss_item = (
-                        loss_item.detach().item()
-                        if isinstance(loss_item, torch.Tensor)
-                        else loss_item
-                    )
-                    losses_meter[name].update(loss_item)
-                for name, measure_item in name_to_measure:
-                    measure_item = (
-                        measure_item.detach().item()
-                        if isinstance(measure_item, torch.Tensor)
-                        else measure_item
-                    )
-                    metric_meter[name].update(measure_item)
+                # loss = (
+                #     losses.detach().item()
+                #     if isinstance(losses, torch.Tensor)
+                #     else losses
+                # )
+                # losses_meter["total"].update(loss)
+                # for name, loss_item in name_to_loss:
+                #     loss_item = (
+                #         loss_item.detach().item()
+                #         if isinstance(loss_item, torch.Tensor)
+                #         else loss_item
+                #     )
+                #     losses_meter[name].update(loss_item)
+                # for name, measure_item in name_to_measure:
+                #     measure_item = (
+                #         measure_item.detach().item()
+                #         if isinstance(measure_item, torch.Tensor)
+                #         else measure_item
+                #     )
+                #     metric_meter[name].update(measure_item)
 
                 if index % self.config.LOG_INTERVAL == 0:
                     info(
                         f"Valid Epoch[{epoch}/{self.config.END_EPOCH}, {index}/{length}]:"
                     )
                     info(f"    batch-time: {batch_time_meter.avg}")
-                    for name, meter in losses_meter.items():
-                        info(f"    loss:    {name}: {meter.avg}")
-                    for name, measure in metric_meter.items():
-                        info(f"    measure: {name}: {measure.avg}")
+                    # for name, meter in losses_meter.items():
+                    #     info(f"    loss:    {name}: {meter.avg}")
+                    # for name, measure in metric_meter.items():
+                    #     info(f"    measure: {name}: {measure.avg}")
                 del batch,outputs
                 torch.cuda.empty_cache()
 
@@ -406,10 +406,11 @@ class ParallelLaunch:
         )
         self.tb_recoder.add_scalar(f"Valid/EpochTime", epoch_time, epoch)
         self.tb_recoder.add_scalar(f"Valid/BatchTime", batch_time, epoch)
-        for name, meter in losses_meter.items():
-            info(f"    loss:    {name}: {meter.avg}")
-            self.tb_recoder.add_scalar(f"Valid/{name}", meter.avg, epoch)
-        for name, measure in metric_meter.items():
-            info(f"    measure: {name}: {measure.avg}")
-            self.tb_recoder.add_scalar(f"Valid/{name}", measure.avg, epoch)
-        return losses_meter["total"].avg
+        # for name, meter in losses_meter.items():
+        #     info(f"    loss:    {name}: {meter.avg}")
+        #     self.tb_recoder.add_scalar(f"Valid/{name}", meter.avg, epoch)
+        # for name, measure in metric_meter.items():
+        #     info(f"    measure: {name}: {measure.avg}")
+        #     self.tb_recoder.add_scalar(f"Valid/{name}", measure.avg, epoch)
+        # return losses_meter["total"].avg
+        return None

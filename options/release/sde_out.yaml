@@ -9,7 +9,7 @@ VAL_INTERVAL: 1
 MODEL_SANING_INTERVAL: 5
 MIX_PRECISION: true
 RESUME:
-  PATH: "" # file path of pretrained model
+  PATH: "/home/xiaoshan/work/adap_v/EvLight/pretrained/sde_out.pth.tar" # file path of pretrained model
   TYPE:
   SET_EPOCH: false
 SEED: 2333
@@ -24,7 +24,7 @@ LOSS:
   - NAME: normal-light-reconstructed-loss
     WEIGHT: 1
   - NAME: normal-light-perceptual-loss
-    WEIGHT: 0.2
+    WEIGHT: 0.5
 METRICS:
   - NAME: SSIM
     input_is_linear: false
@@ -33,7 +33,7 @@ METRICS:
   - NAME: PSNR_star
     input_is_linear: false
 DATASET:
-  NAME: get_egsdsd_withNE_dataset
+  NAME: get_eglol_withNE_dataset
   root: "" # file path of dataset
   voxel_grid_channel: 32
   img_height: 260
@@ -47,7 +47,7 @@ MODEL:
     voxel_grid_channel: 32
     illumiantion_set: [0]
   ImageNet:
-    snr_factor: 3 
+    snr_factor: 6
     voxel_grid_channel: 32
     base_chs: 48
     snr_threshold_list: [0.6, 0.5, 0.4]

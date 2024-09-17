@@ -135,7 +135,6 @@ class ImageEnhanceNet(nn.Module): #check
         # encode img + event
         event_free = self.ev_extractor(event_free)
         enhance_low_img = self.img_extractor(enhance_low_img_mid)
-        
         img_event = self.ev_img_align(torch.concat((event_free, enhance_low_img),dim=1))
         # holistic and regional operation
         pred_normal_img = self.Unet_ReFormer(img_event,enhance_low_img_mid,enhance_low_img, snr_enhance,event_free)
@@ -155,7 +154,7 @@ class EgLlie(nn.Module):
 
         outputs = {
                 'pred':output,
-                'gt':batch["normalligt_image"],
+                # 'gt':batch["normalligt_image"],
         }
 
         return outputs
